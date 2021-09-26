@@ -70,6 +70,12 @@ func (*StrUtils) HasEmpty(s string) bool {
 	}
 	return false
 }
+func (*StrUtils) HasNotEmpty(s string) bool {
+	if s == "" || len(s) == 0 {
+		return false
+	}
+	return true
+}
 
 // RemoveSuffix 去掉文件扩展名，直接获取文件名称
 //Remove the file extension and get the file name directly
