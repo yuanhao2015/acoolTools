@@ -71,7 +71,7 @@ func (*StrUtils) HasEmpty(s string) bool {
 	return false
 }
 
-// HasNotEmpty
+// HasNotEmpty1
 func (*StrUtils) HasNotEmpty(s string) bool {
 	if s == "" || len(s) == 0 {
 		return false
