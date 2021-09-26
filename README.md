@@ -8,6 +8,23 @@ Golang工具集，主要是将日常开发中常用的到方法进行提炼集�
 ```go
 import "github.com/yuanhao2015/acoolTools"
 ```
+
+
+ApiRespUtils TableRespUtils
+=======
+通用api数据返回json
+```go
+func TestResponse(t *testing.T) {
+	//通用api返回json数据
+	acoolTools.ApiRespUtils.SetMsg("test").SetCode(200).SetData([]string{
+		"1", "2", "3",
+	}).WriteJsonExit()
+	//通用数据表格返回json数据
+	response.BuildTable(nil, 11, "2222")
+	acoolTools.TableRespUtils.WriteJsonExit()
+}
+```
+
 ClientIPUtils
 =======
 真实获取客户端ip的工具包

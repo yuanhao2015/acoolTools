@@ -15,11 +15,14 @@ import (
 	"github.com/yuanhao2015/acoolTools/page"
 	"github.com/yuanhao2015/acoolTools/pretty"
 	"github.com/yuanhao2015/acoolTools/request"
+	"github.com/yuanhao2015/acoolTools/response"
 	"github.com/yuanhao2015/acoolTools/str"
 	"github.com/yuanhao2015/acoolTools/tree"
 )
 
 var (
+	TableRespUtils    response.TableResp        //通用分页数据返回json
+	ApiRespUtils      response.ApiResp          //通用api数据json
 	ClientIPUtils     get_ip.GetIpUtil          //ip 获取工具
 	StrArrayUtils     array.StrArray            //String 数据工具声明
 	Logs              logs.Logs                 //log日志声明
