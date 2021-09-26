@@ -7,9 +7,6 @@
  */
 package e
 
-type GetMsgUtils struct {
-}
-
 var MsgFlags = map[int]string{
 	SUCCESS:        "成功",      //通用成功 200
 	ERROR:          "服务器内部错误", //通用服务端失败 500
@@ -17,7 +14,7 @@ var MsgFlags = map[int]string{
 }
 
 // GetMsg get error information based on Code
-func (g *GetMsgUtils) GetMsg(code int) string {
+func GetMsg(code int) string {
 	msg, ok := MsgFlags[code]
 	if ok {
 		return msg
