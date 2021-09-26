@@ -70,6 +70,8 @@ func (*StrUtils) HasEmpty(s string) bool {
 	}
 	return false
 }
+
+// HasNotEmpty
 func (*StrUtils) HasNotEmpty(s string) bool {
 	if s == "" || len(s) == 0 {
 		return false
