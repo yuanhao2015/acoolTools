@@ -3,6 +3,7 @@ module github.com/yuanhao2015/acoolTools
 go 1.16
 
 require (
+	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/druidcaesa/gotool v0.0.0-20210820022536-52fde3f59bc4
 	github.com/fogleman/gg v1.3.0
 	github.com/gin-gonic/gin v1.7.4

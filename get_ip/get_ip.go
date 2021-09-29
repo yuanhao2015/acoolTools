@@ -8,10 +8,14 @@
 package get_ip
 
 import (
+	"encoding/json"
 	"errors"
+	"github.com/axgle/mahonia"
+	"io/ioutil"
 	"math"
 	"net"
 	"net/http"
+	"regexp"
 	"strings"
 )
 
@@ -144,4 +148,52 @@ func (g *GetIpUtil) Long2IP(i uint) (net.IP, error) {
 	ip[3] = byte(i)
 
 	return ip, nil
+}
+
+func (g *GetIpUtil) GetCityByIp(ip string) string {
+	if ip == "" {
+		return ""
+	}
+
+	if ip == "::1" || ip == "127.0.0.1" {
+		return "内网IP"
+	}
+	//局域网地址：10.*.*.*
+	if match1, _ := regexp.MatchString(`10\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])`, ip); match1 {
+		return "内网IP"
+	}
+	//局域网地址：172.16.*.* - 172.31.*.*
+	if match2, _ := regexp.MatchString(`172\.((1[6-9])|(2[0-9])|(3[0-1]))\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])`, ip); match2 {
+		return "内网IP"
+	}
+	//局域网地址：192.168.*.*
+	if match3, _ := regexp.MatchString(
+		`192\.168\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])`, ip); match3 {
+		return "内网IP"
+	}
+	url := "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=" + ip
+	client := &http.Client{}
+	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Set("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3")
+	response, _ := client.Do(request)
+	if response.StatusCode == 200 {
+		body, _ := ioutil.ReadAll(response.Body)
+		bodystr := string(body)
+		tmp := ConvertToString(bodystr, "gbk", "utf-8")
+		p := make(map[string]interface{}, 0)
+		if err := json.Unmarshal([]byte(tmp), &p); err == nil {
+			return p["addr"].(string)
+		}
+	}
+	return ""
+}
+
+//tagCode 要转换的编码
+func ConvertToString(src string, srcCode string, tagCode string) string {
+	srcCoder := mahonia.NewDecoder(srcCode)
+	srcResult := srcCoder.ConvertString(src)
+	tagCoder := mahonia.NewDecoder(tagCode)
+	_, cdata, _ := tagCoder.Translate([]byte(srcResult), true)
+	result := string(cdata)
+	return result
 }

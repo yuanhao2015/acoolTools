@@ -65,7 +65,11 @@ func TestGetIp(t *testing.T) {
 	if ip := acoolTools.ClientIPUtils.GetClientIP(r); ip != "40.40.40.40" {
 		t.Errorf("actual: 40.40.40.40, expected:%s", ip)
 	}
+    t.Log(acoolTools.ClientIPUtils.GetCityByIp("175.0.118.197"))
 }
+=== RUN   TestGetIp
+    get_ip_test.go:46: 湖南省长沙市 电信
+--- PASS: TestGetIp (0.06s)
 ```
 
 StrUtils
